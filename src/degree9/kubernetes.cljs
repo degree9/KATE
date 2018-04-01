@@ -34,13 +34,23 @@
   (let [[message details] (k8s-error err)]
     (error/not-found message details)))
 
-(defn- create-namespace [data]
-  (->
-    (.createNamespace api (clj->js {:metadata data}))
-    (.then k8s-response)
-    (.catch prn)))
+(defn- already-exists
+  "Emits a Conflict error from a Kubernetes error response."
+  [err]
+  (let [[message details] (k8s-error err)]
+    (error/conflict message details)))
 
-(defn- read-namespace [id]
+(defn- create-namespace
+  "Create a Kubernetes namespace."
+  [data]
+  (->
+    (.createNamespace api data)
+    (.then k8s-response)
+    (.catch already-exists)))
+
+(defn- read-namespace
+  "Read a Kubernetes namespace."
+  [id]
   (->
     (.readNamespace api id)
     (.then k8s-response)
@@ -57,11 +67,7 @@
       (get [this id & [params]]
         (read-namespace id))
       (create [this data & [params]]
-        (create-namespace (js->clj data))))))
-      ;(update [this id data params]
-      ;  ())
-      ;(patch [this id data params]
-      ;  ())
+        (create-namespace data)))))
       ;(remove [this id params]
       ;  ()))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
