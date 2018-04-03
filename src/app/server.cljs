@@ -10,6 +10,7 @@
     svr/with-socketio
     svr/with-channels
     app/namespace
+    app/deployment
     svc/entrypoint)
 
 (defn- main []

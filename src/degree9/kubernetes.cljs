@@ -8,7 +8,13 @@
 ;; Kubernetes API ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def k8s (node/require "@kubernetes/client-node"))
 
-(def api (k8s.Config.defaultClient))
+(def KubeConfig k8s.KubeConfig)
+
+(def Config k8s.Config)
+
+(def apps-api (k8s.Apps_v1Api.))
+
+(def core-api (k8s.Config.defaultClient))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Kubernetes Helpers ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,18 +49,26 @@
 (defn- create-namespace
   "Create a Kubernetes namespace."
   [data]
-  (->
-    (.createNamespace api data)
+  (-> core-api
+    (.createNamespace data)
     (.then k8s-response)
     (.catch already-exists)))
 
 (defn- read-namespace
   "Read a Kubernetes namespace."
-  [id]
-  (->
-    (.readNamespace api id)
+  [name]
+  (-> core-api
+    (.readNamespace name)
     (.then k8s-response)
     (.catch not-found)))
+
+(defn- read-deployment
+  "List Deployments from a Kubernetes namespace."
+  [name namespace]
+  (-> apps-api
+    (.readNamespacedDeployment name namespace)
+    (.then k8s-response)
+    (.catch prn)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Kubernetes Services ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -68,6 +82,20 @@
         (read-namespace id))
       (create [this data & [params]]
         (create-namespace data)))))
+      ;(remove [this id params]
+      ;  ()))))
+
+(defn deployment [& [opts]]
+  (let []
+    (reify
+      Object
+      ;(find [this params]
+      ;  ())
+      (get [this id & [{:keys [] :as params}]]
+        (.log js/console id params)
+        (read-deployment id nil)))))
+      ;(create [this data & [params]]
+      ;  (create-namespace data))))
       ;(remove [this id params]
       ;  ()))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -7,3 +7,6 @@
 
 (defn namespace [app]
   (svr/api app "/namespace" (k8s/namespace) {}))
+
+(defn deployment [app]
+  (svr/api app "/:namespace/deployment" (k8s/deployment) {}))
