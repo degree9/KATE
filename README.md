@@ -6,7 +6,17 @@ KATE is an Anything as a Service (XaaS) tool, it is used to deploy Kubernetes na
 ## Core Components
 
 ### Tenants
-A Tenant represent the desired state of a collection of services. 
+A Tenant represents the desired state of a collection of services. 
+```json
+{
+  "kind": "Tenant",
+  "apiVersion": "kate.degree9.io/v1",
+  "metadata": {
+    "name": "example"
+  },
+  "spec": {}
+}
+```
 
 - [ ] Create a Tenant and Services
 
