@@ -3,7 +3,7 @@
 
 KATE is an Anything as a Service (XaaS) tool, it is used to deploy Kubernetes native resources as well as Custom resources. 
 
-## Core Components
+## Components `kate.degree9.io/v1`
 
 ### Tenants
 A Tenant represents the desired state of a collection of services. 
@@ -29,11 +29,14 @@ A Service represents the desired state of a single service.
   "kind": "Service",
   "apiVersion": "kate.degree9.io/v1",
   "metadata": {
-    "name": "example"
+    "name": "example",
+    "path": "/example",
+    ""
   },
   "spec": {}
 }
 ```
+
 - [ ] Create a Service
 
 > These are backed as Custom Resources within Kubernetes.
