@@ -1,7 +1,7 @@
 # KATE
 **K**ubernetes **A**ssistant for multi-**T**enant **E**nvironments
 
-KATE is an Anything as a Service (XaaS) tool, it it used to deploy Kubernetes native resources as well as Custom resources. 
+KATE is an Anything as a Service (XaaS) tool, it is used to deploy Kubernetes native resources as well as Custom resources. 
 
 ## Core Components
 
