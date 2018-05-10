@@ -24,7 +24,16 @@ A Tenant represents the desired state of a collection of services.
 
 ### Services
 A Service represents the desired state of a single service.
-
+```json
+{
+  "kind": "Service",
+  "apiVersion": "kate.degree9.io/v1",
+  "metadata": {
+    "name": "example"
+  },
+  "spec": {}
+}
+```
 - [ ] Create a Service
 
 > These are backed as Custom Resources within Kubernetes.
