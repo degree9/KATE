@@ -1,7 +1,7 @@
 (ns app.server
  (:require
   [meta.server :as svr]
-  [app.services :as app]
+  [kate.services :as kate]
   [degree9.services :as svc]))
 
 (-> svr/app
@@ -9,8 +9,9 @@
     svr/with-rest
     svr/with-socketio
     svr/with-channels
-    app/namespace
-    app/deployment
+    kate/tenant
+    kate/namespace
+    kate/deployment
     svc/entrypoint)
 
 (defn- main []

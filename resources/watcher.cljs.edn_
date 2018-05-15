@@ -1,0 +1,4 @@
+{:require []
+ :init-fns [app.watcher/init]
+ :compiler-options {:target :nodejs
+                    :closure-defines {nodejs-cljs.core/dev? false}}}
