@@ -1,0 +1,10 @@
+(ns app.watcher
+ (:require
+   [degree9.kubernetes :as k8s]))
+
+(defn- main []
+ (k8s/watcher "/apis/kate.degree9.io/v1/tenants/"
+  (k8s/watch-handler)))
+
+(defn init []
+  (set! *main-cli-fn* main))
